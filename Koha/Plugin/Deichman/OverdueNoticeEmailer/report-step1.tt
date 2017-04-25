@@ -1,0 +1,40 @@
+[% INCLUDE 'doc-head-open.inc' %]
+<title>Koha: Overdue Notice Emailer Report</title>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Overdue Notice &rsaquo; Emailer Report</div>
+
+<div id="doc3">
+
+[% IF not results %]Nothing here... [% END %]
+
+[% FOREACH patron IN results.keys.sort %]
+  [% patron %] overdues:
+
+<table border=1>
+  <thead>
+    <tr>
+      <th>tittel</th>
+      <th>strekkode</th>
+      <th>forfall</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    [% FOREACH r IN results.$patron %]
+      <tr>
+        <td>[% r.title %]</td>
+        <td>[% r.barcode %]</td>
+        <td>[% r.due_date %]</td>
+      </tr>
+    [% END %]
+  </tbody>
+</table>
+
+[% END %]
+
+[% INCLUDE 'intranet-bottom.inc' %]

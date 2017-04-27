@@ -43,7 +43,7 @@
 
         <pre>
 [% FOREACH item IN items %]
-  title: [% item.title %], barcode: [% item.barcode %], email: [% item.email %]
+  title: [% item.title %], barcode: [% item.barcode %], copynumber: [% item.copynumber %], email: [% item.email %]
 [% END %]
         </pre>
         <p>And could be formatted any way you like (using html tags).</p>

@@ -13,14 +13,15 @@
 [% IF not results %]Nothing here... [% END %]
 
 [% FOREACH patron IN results.keys.sort %]
-  [% patron %] overdues:
+  cardnumber: [% patron %]
 
 <table border=1>
   <thead>
     <tr>
-      <th>tittel</th>
-      <th>strekkode</th>
-      <th>forfall</th>
+      <th>title</th>
+      <th>barcode</th>
+      <th>copynumber</th>
+      <th>date_due</th>
     </tr>
   </thead>
 
@@ -29,7 +30,8 @@
       <tr>
         <td>[% r.title %]</td>
         <td>[% r.barcode %]</td>
-        <td>[% r.due_date %]</td>
+        <td>[% r.copynumber %]</td>
+        <td>[% r.date_due %]</td>
       </tr>
     [% END %]
   </tbody>

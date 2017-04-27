@@ -222,7 +222,7 @@ sub query {
     my $category = $args->{'category'};
 
     my $query = "
-        SELECT b.borrowernumber, b.cardnumber, b.email, CONCAT(firstname, ' ', surname) AS name, bib.title, it.barcode, iss.date_due
+        SELECT b.borrowernumber, b.cardnumber, b.email, CONCAT(firstname, ' ', surname) AS name, bib.title, it.barcode, it.copynumber, iss.date_due
         FROM borrowers b
         JOIN issues iss USING (borrowernumber)
         JOIN items it USING (itemnumber)

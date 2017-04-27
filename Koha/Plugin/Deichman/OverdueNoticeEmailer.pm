@@ -229,7 +229,7 @@ sub query {
         JOIN biblio bib ON (bib.biblionumber=it.biblionumber)
         WHERE b.categorycode= ?
         AND b.email IS NOT NULL
-        AND (TO_DAYS(curdate()) - TO_DAYS(iss.date_due)) > 35 limit 100;
+        AND (TO_DAYS(curdate()) - TO_DAYS(iss.date_due)) > 35;
     ";
 
     my $sth = $dbh->prepare($query);

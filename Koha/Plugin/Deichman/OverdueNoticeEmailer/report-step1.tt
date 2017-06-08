@@ -13,25 +13,32 @@
 [% IF not results %]Nothing here... [% END %]
 
 [% FOREACH patron IN results.keys.sort %]
-  cardnumber: [% patron %]
+  <strong>name: [% results.$patron.0.name %]</strong><br />
+  <em>cardnumber: [% patron %]</em><br />
 
 <table border=1>
   <thead>
     <tr>
-      <th>title</th>
-      <th>barcode</th>
-      <th>copynumber</th>
       <th>date_due</th>
+      <th>author</th>
+      <th>title</th>
+      <th>itype</th>
+      <th>biblionumber</th>
+      <th>copynumber</th>
+      <th>barcode</th>
     </tr>
   </thead>
 
   <tbody>
     [% FOREACH r IN results.$patron %]
       <tr>
-        <td>[% r.title %]</td>
-        <td>[% r.barcode %]</td>
-        <td>[% r.copynumber %]</td>
         <td>[% r.date_due %]</td>
+        <td>[% r.author %]</td>
+        <td>[% r.title %]</td>
+        <td>[% r.itype %]</td>
+        <td>[% r.biblionumber %]</td>
+        <td>[% r.copynumber %]</td>
+        <td>[% r.barcode %]</td>
       </tr>
     [% END %]
   </tbody>

@@ -10,7 +10,7 @@ use DateTime;
 use Koha::Database;
 
 ## Here we set our plugin version
-our $VERSION = 1.00;
+our $VERSION = 1.03;
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
@@ -18,7 +18,7 @@ our $metadata = {
     author          => 'Benjamin Rokseth',
     description     => 'This plugin takes a Koha patrons file and sends an email to the patrons found in the file',
     date_authored   => '2017-04-20',
-    date_updated    => '2017-04-20',
+    date_updated    => '2017-06-08',
     minimum_version => '16.11.060000',
     maximum_version => undef,
     version         => $VERSION,
@@ -149,6 +149,7 @@ sub tool_step1 {
     my @emails = ();
     while (my ($cardnumber, $items) = each %$grouped_results) {
         my $email = {
+            name       => $items->[0]->{'name'},
             cardnumber => $cardnumber,
             subject    => $subject,
             email      => create_email_body($body_template, $cardnumber, $items)
@@ -209,6 +210,7 @@ sub create_email_body {
     my $email = Template->new();
     my $body;
     $email->process( \$body_template, {
+        name => $items->[0]->{'name'},
         cardnumber => $cardnumber,
         items => $items
     }, \$body );
@@ -222,14 +224,24 @@ sub query {
     my $category = $args->{'category'};
 
     my $query = "
-        SELECT b.borrowernumber, b.cardnumber, b.email, CONCAT(firstname, ' ', surname) AS name, bib.title, it.barcode, it.copynumber, iss.date_due
+        SELECT b.borrowernumber,
+               b.cardnumber,
+               b.email,
+               CONCAT(firstname, ' ', surname) AS name,
+               bib.author,
+               bib.title,
+               i.biblionumber,
+               i.barcode,
+               i.copynumber,
+               i.itype,
+               iss.date_due
         FROM borrowers b
         JOIN issues iss USING (borrowernumber)
-        JOIN items it USING (itemnumber)
-        JOIN biblio bib ON (bib.biblionumber=it.biblionumber)
+        JOIN items i USING (itemnumber)
+        JOIN biblio bib ON (bib.biblionumber=i.biblionumber)
         WHERE b.categorycode= ?
-        AND b.email IS NOT NULL
-        AND (TO_DAYS(curdate()) - TO_DAYS(iss.date_due)) > 35;
+          AND b.email IS NOT NULL
+          AND (TO_DAYS(curdate()) - TO_DAYS(iss.date_due)) > 35;
     ";
 
     my $sth = $dbh->prepare($query);

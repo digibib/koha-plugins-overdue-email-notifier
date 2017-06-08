@@ -14,7 +14,8 @@
     <br/>
 
 [% FOREACH recipient IN emails %]
-  <p>receiver: [% recipient.cardnumber %]</p>
+  <p>receiver: [% recipient.name %]</p>
+  <p>cardnumber: [% recipient.cardnumber %]</p>
   <p>subject: [% recipient.subject %]</p>
   <p>body: [% recipient.email %]</p>
 [% END %]

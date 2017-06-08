@@ -36,6 +36,7 @@
 
         <pre>
 [% TAGS [- -] %]
+[% name %]       - the name of the patron to be emailed
 [% cardnumber %] - the cardnumber of the patron to be emailed
 [% items %]      - the list of items that are overdue
         </pre>
@@ -43,7 +44,15 @@
 
         <pre>
 [% FOREACH item IN items %]
-  title: [% item.title %], barcode: [% item.barcode %], copynumber: [% item.copynumber %], email: [% item.email %]
+    <tr>
+        <td>[% item.date_due %]</td>
+        <td>[% item.author %]</td>
+        <td>[% item.title %]</td>
+        <td>[% item.itype %]</td>
+        <td>[% item.biblionumber %]</td>
+        <td>[% item.copynumber %]</td>
+        <td>[% item.barcode %]</td>
+    <tr>
 [% END %]
         </pre>
         <p>And could be formatted any way you like (using html tags).</p>
